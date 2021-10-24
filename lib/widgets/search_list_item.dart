@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:search_app/models/github_response.dart';
+import 'package:search_app/utils/date_parser.dart';
 import 'package:search_app/utils/spacers.dart';
 
 class SearchListItem extends StatelessWidget {
@@ -32,7 +33,7 @@ class SearchListItem extends StatelessWidget {
                   Text('Repo name: ${currentResponse.name}'),
                   smallSpacer,
                   Text(
-                    'Last updated: ${currentResponse.updatedAt}',
+                    'Last updated: ${parseDate(currentResponse.updatedAt)}',
                   ),
                 ],
               ),
