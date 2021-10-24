@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:search_app/screens/list_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -10,14 +13,14 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // Timer(
-    //   Duration(seconds: 3),
-    //   () => Navigator.of(context).pushReplacement(
-    //     MaterialPageRoute(
-    //       builder: (BuildContext context) => // TODO: Add next screen,
-    //     ),
-    //   ),
-    // );
+    Timer(
+      const Duration(seconds: 3),
+      () => Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (BuildContext context) => const ListScreen(),
+        ),
+      ),
+    );
     super.initState();
   }
 
