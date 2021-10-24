@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:search_app/api/api_service.dart';
 import 'package:search_app/models/github_response.dart';
@@ -13,24 +15,29 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   List<GithubResponse> response = [];
+  StreamSubscription<dynamic>? updateSubscription;
+  Timer? _debounce;
 
   void _handleFieldOnChange(String value) async {
-    if (value.isEmpty) {
-      setState(() => response = []);
-    } else {
-      final List<GithubResponse>? res = await ApiService.fetchRepos(value);
+    _debounce?.cancel();
+    updateSubscription?.cancel();
 
-      if (res == null) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Error fetching data'),
-          duration: Duration(seconds: 2),
-        ));
-        setState(() => response = []);
-      } else {
-        res.sort((a, b) => DateTime.parse(b.updatedAt).compareTo(DateTime.parse(a.updatedAt)));
-        setState(() => response = res);
-      }
-    }
+    if (value.isEmpty) return setState(() => response = []);
+
+    _debounce = Timer(const Duration(milliseconds: 400), () {
+      updateSubscription = ApiService.fetchRepos(value).asStream().listen((List<GithubResponse>? res) {
+        if (res == null) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Too many requests, please try again later'),
+            duration: Duration(seconds: 2),
+          ));
+          setState(() => response = []);
+        } else {
+          res.sort((a, b) => DateTime.parse(b.updatedAt).compareTo(DateTime.parse(a.updatedAt)));
+          setState(() => response = res);
+        }
+      });
+    });
   }
 
   @override
