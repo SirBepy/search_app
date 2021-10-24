@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:search_app/api/api_service.dart';
+import 'package:search_app/models/github_response.dart';
 import 'package:search_app/utils/spacers.dart';
 
 class ListScreen extends StatefulWidget {
@@ -9,15 +11,25 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  List<dynamic> response = [];
+  List<GithubResponse> response = [];
 
   void _handleFieldOnChange(String value) async {
     if (value.isEmpty) {
-      response = [];
+      setState(() => response = []);
     } else {
-      print(value);
+      final List<GithubResponse>? res = await ApiService.fetchRepos(value);
+
+      if (res == null) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Error fetching data'),
+          duration: Duration(seconds: 2),
+        ));
+        setState(() => response = []);
+      } else {
+        res.sort((a, b) => DateTime.parse(b.updatedAt).compareTo(DateTime.parse(a.updatedAt)));
+        setState(() => response = res);
+      }
     }
-    setState(() {});
   }
 
   @override
