@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:search_app/api/api_service.dart';
 import 'package:search_app/models/github_response.dart';
 import 'package:search_app/utils/spacers.dart';
+import 'package:search_app/widgets/search_list_item.dart';
 
 class ListScreen extends StatefulWidget {
   const ListScreen({Key? key}) : super(key: key);
@@ -65,7 +66,7 @@ class _ListScreenState extends State<ListScreen> {
               ),
               mediumSpacer,
               TextField(
-                onChanged: (value) => _handleFieldOnChange(value),
+                onChanged: _handleFieldOnChange,
                 decoration: InputDecoration(
                   labelText: 'Search',
                   icon: Icon(
@@ -97,7 +98,7 @@ class _ListScreenState extends State<ListScreen> {
                   child: ListView.builder(
                     itemCount: response.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(); // TODO: Implement list item widget
+                      return SearchListItem(response[index]);
                     },
                   ),
                 ),
