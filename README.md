@@ -13,7 +13,7 @@ The project is a simple search app that sorts received entries by date.
 
 ## Getting Started <a name = "getting_started"></a>
 
-The easiest way to run the app would be to run the .apk file provided
+The easiest way to run the app would be to download and install the latest version from the [releases tab](https://github.com/SirBepy/search_app/releases)
 
 ### Prerequisites
 
