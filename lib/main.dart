@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:search_app/screens/splash_screen.dart';
 
 void main() {
   runApp(const SearchApp());
@@ -28,7 +29,7 @@ class SearchApp extends StatelessWidget {
           bodyText1: TextStyle(fontSize: 18.0),
         ),
       ),
-      home: Container(),
+      home: const SplashScreen(),
     );
   }
 }
